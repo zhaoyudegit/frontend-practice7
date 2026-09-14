@@ -33,20 +33,29 @@ const earth = new THREE.Mesh(earthGeo, earthMat);
 earth.position.x = 6;
 earthGroup.add(earth);
 
-// 地球公转轨道圆环
+//月球
+const moonGeo = new THREE.SphereGeometry(0.25, 24, 24);
+const moonMat = new THREE.MeshStandardMaterial({ color: 0xb0b0b0 });
+const moon = new THREE.Mesh(moonGeo, moonMat);
+moon.position.x = 1.8;
+earth.add(moon);
+
+//公转轨道
 const orbitGeo = new THREE.RingGeometry(5.9,6.1,64);
 const orbitMat = new THREE.MeshBasicMaterial({color:0x444466, side:THREE.DoubleSide});
 const earthOrbit = new THREE.Mesh(orbitGeo,orbitMat);
 earthOrbit.rotation.x = -Math.PI / 2;
 scene.add(earthOrbit);
 
-// 动画
+//动画
 const animate = () => {
   requestAnimationFrame(animate);
   controls.update();
   sun.rotation.y += 0.002;
-  earthGroup.rotation.y += 0.008; //地球绕太阳公转
-  earth.rotation.y += 0.02;       //地球自转
+  earthGroup.rotation.y += 0.008;
+  earth.rotation.y += 0.02;
+  moon.rotation.y += 0.03;
+  moon.rotation.z += 0.025;
   renderer.render(scene, camera);
 };
 animate();
@@ -56,4 +65,3 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
-
